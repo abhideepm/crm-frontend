@@ -1,7 +1,13 @@
 import React from 'react'
 import './Login.css'
+import { useForm } from 'react-hook-form'
+import { Link } from 'react-router-dom'
 
 const Login = () => {
+	const { register, handleSubmit } = useForm()
+	const onSubmit = data => {
+		console.log(data)
+	}
 	return (
 		<div className="container">
 			<div className="row">
@@ -9,49 +15,50 @@ const Login = () => {
 					<div className="card card-signin my-5">
 						<div className="card-body">
 							<h5 className="card-title text-center">Sign In</h5>
-							<form className="form-signin">
+							<form className="form-signin" onSubmit={handleSubmit(onSubmit)}>
 								<div className="form-label-group">
 									<input
 										type="email"
-										id="inputEmail"
+										id="email"
+										name="email"
 										className="form-control"
 										placeholder="Email address"
+										ref={register}
 										required
 										autoFocus
 									/>
-									<label htmlFor="inputEmail">Email address</label>
+									<label htmlFor="email">Email address</label>
 								</div>
 
 								<div className="form-label-group">
 									<input
 										type="password"
-										id="inputPassword"
+										id="password"
+										name="password"
 										className="form-control"
 										placeholder="Password"
+										ref={register}
 										required
 									/>
-									<label htmlFor="inputPassword">Password</label>
+									<label htmlFor="password">Password</label>
 								</div>
 
-								<div className="custom-control custom-checkbox mb-3">
-									<input
-										type="checkbox"
-										className="custom-control-input"
-										id="customCheck1"
-									/>
-									<label
-										className="custom-control-label"
-										htmlFor="customCheck1"
-									>
-										Remember password
-									</label>
-								</div>
 								<button
 									className="btn btn-lg btn-primary btn-block text-uppercase"
 									type="submit"
 								>
 									Sign in
 								</button>
+								<hr />
+								<Link
+									to="/forgotpassword"
+									className="d-block text-center mt-2 big"
+								>
+									Forgot Password?
+								</Link>
+								<Link to="/register" className="d-block text-center mt-2 big">
+									Don't have an account? Register
+								</Link>
 							</form>
 						</div>
 					</div>
