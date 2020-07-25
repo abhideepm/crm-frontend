@@ -2,11 +2,18 @@ import React from 'react'
 import './ForgotPassword.css'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
-const ForgotPassword = () => {
+const ForgotPassword = ({ history }) => {
 	const { register, handleSubmit } = useForm()
-	const onSubmit = data => {
-		console.log(data)
+	const onSubmit = async data => {
+		const res = await axios.post(
+			`https://limitless-badlands-01612.herokuapp.com/login`,
+			data
+		)
+		if (res.data.message === 'Success') history.push('/resetpassword')
+		else if (res.data.message === 'User not found') alert('User not found')
+		else alert('Error')
 	}
 	return (
 		<div>

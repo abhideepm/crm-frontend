@@ -2,11 +2,21 @@ import React from 'react'
 import './Register.css'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
-const Register = () => {
+const Register = ({ history }) => {
 	const { register, handleSubmit } = useForm()
-	const onSubmit = data => {
-		console.log(data)
+	const onSubmit = async data => {
+		const res = await axios.post(
+			`https://limitless-badlands-01612.herokuapp.com/register`,
+			data
+		)
+		if (res.data.message === 'Success')
+			alert('Registration successful, Redirecting')
+		else if (res.data.message === 'User already exists')
+			alert('User already exists')
+		else alert('Error')
+		history.push('/login')
 	}
 
 	return (
@@ -68,9 +78,9 @@ const Register = () => {
 										<option value="SEL" disabled>
 											Select Type of Account
 										</option>
-										<option value="employee">Employee</option>
-										<option value="manager">Manager</option>
-										<option value="admin">Admin</option>
+										<option value="Employee">Employee</option>
+										<option value="Manager">Manager</option>
+										<option value="Admin">Admin</option>
 									</select>
 								</div>
 
