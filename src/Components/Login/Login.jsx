@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import './Login.css'
@@ -7,6 +7,9 @@ import './Login.css'
 const Login = ({ history }) => {
 	const { register, handleSubmit } = useForm()
 
+	// useEffect(() => {
+	// 	const token = localStorage.getItem('token')
+	// }, [])
 	const onSubmit = async data => {
 		const res = await axios.post(
 			`https://limitless-badlands-01612.herokuapp.com/login`,

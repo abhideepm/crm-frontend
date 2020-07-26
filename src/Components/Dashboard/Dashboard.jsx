@@ -21,6 +21,11 @@ const Dashboard = ({ match }) => {
 				<li>
 					<Link to={`${match.url}/requests`}>SERVICE REQUESTS</Link>
 				</li>
+				<li>
+					<Link to={`/login`} onClick={() => localStorage.clear()}>
+						LOG OUT
+					</Link>
+				</li>
 			</ul>
 			<Switch>
 				<Route path={`${match.url}/home`} component={Home} />

@@ -5,11 +5,11 @@ import {
 	Route,
 	Switch,
 } from 'react-router-dom'
+import Dashboard from './Components/Dashboard/Dashboard'
 import ForgotPassword from './Components/ForgotPassword/ForgotPassword'
 import Login from './Components/Login/Login'
 import Register from './Components/Register/Register'
 import ResetPassword from './Components/ResetPassword/ResetPassword'
-import Dashboard from './Components/Dashboard/Dashboard'
 
 const App = () => {
 	return (
