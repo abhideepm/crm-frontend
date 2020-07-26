@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 
-const Requests = ({ requestsData }) => {
+const Requests = ({ requestsData, history }) => {
 	const token = localStorage.getItem('token')
 	const deleteData = async id => {
 		try {
@@ -23,7 +23,10 @@ const Requests = ({ requestsData }) => {
 				<div className="card-body text-center">
 					<div className="text-right">
 						<button className="btn btn-success">
-							<i className="fas fa-plus"></i>
+							<i
+								className="fas fa-plus"
+								onClick={() => history.push(`/dashboard/addrequests`)}
+							></i>
 						</button>
 					</div>
 					<h3 className="card-title">Service Requests</h3>
@@ -31,7 +34,7 @@ const Requests = ({ requestsData }) => {
 						<thead className="thead-dark">
 							<tr>
 								<th scope="col">Title</th>
-								<th scope="col">Requested By</th>
+								<th scope="col">Contact</th>
 								<th scope="col">Status</th>
 								<th scope="col">Actions</th>
 							</tr>
@@ -44,7 +47,12 @@ const Requests = ({ requestsData }) => {
 									<td>{item.status}</td>
 									<td className="d-flex justify-content-around">
 										<button className="btn btn-primary">
-											<i className="fas fa-edit"></i>
+											<i
+												className="fas fa-edit"
+												onClick={() =>
+													history.push(`/dashboard/addrequests/${item._id}`)
+												}
+											></i>
 										</button>
 										<button
 											className="btn btn-danger"

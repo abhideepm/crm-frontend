@@ -2,7 +2,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 
-const AddOrEditLeads = ({ match, history }) => {
+const AddOrEditRequests = ({ contactsData, match, history }) => {
 	const token = localStorage.getItem('token')
 	const { register, handleSubmit } = useForm()
 	const id = match.params.id
@@ -13,7 +13,7 @@ const AddOrEditLeads = ({ match, history }) => {
 		try {
 			if (val === 'Add') {
 				const res = await axios.post(
-					`https://limitless-badlands-01612.herokuapp.com/leads`,
+					`https://limitless-badlands-01612.herokuapp.com/requests`,
 					data,
 					{
 						headers: {
@@ -26,7 +26,7 @@ const AddOrEditLeads = ({ match, history }) => {
 					alert('Data Successfully Inserted, please refresh')
 			} else {
 				const res = await axios.put(
-					`https://limitless-badlands-01612.herokuapp.com/leads/${id}`,
+					`https://limitless-badlands-01612.herokuapp.com/requests/${id}`,
 					data,
 					{
 						headers: {
@@ -38,7 +38,7 @@ const AddOrEditLeads = ({ match, history }) => {
 				if (res.data.message === 'Success')
 					alert('Data Successfully Edited, please refresh')
 			}
-			history.push('/dashboard/leads')
+			history.push('/dashboard/requests')
 		} catch (err) {
 			console.log(err)
 		}
@@ -48,46 +48,40 @@ const AddOrEditLeads = ({ match, history }) => {
 		<div className="mx-auto w-50">
 			<div className="card shadow my-5">
 				<div className="card-body">
-					<h3 className="card-title text-center">{val} Lead</h3>
+					<h3 className="card-title text-center">{val} Request</h3>
 					<div className="card-text">
 						<form onSubmit={handleSubmit(onSubmit)} className="form-signin">
 							<div className="form-label-group">
 								<input
 									type="text"
-									id="name"
-									name="name"
+									id="title"
+									name="title"
 									className="form-control"
-									placeholder="Name"
+									placeholder="Title"
 									ref={register}
 									required
 								/>
-								<label htmlFor="name">Name</label>
+								<label htmlFor="title">Title</label>
 							</div>
 
 							<div className="form-label-group">
-								<input
-									type="email"
-									id="email"
-									name="email"
+								<select
+									id="contact"
+									name="contact"
 									className="form-control"
-									placeholder="Email address"
 									ref={register}
+									defaultValue="SEL"
 									required
-								/>
-								<label htmlFor="email">Email address</label>
-							</div>
-
-							<div className="form-label-group">
-								<input
-									type="number"
-									id="phone"
-									name="phone"
-									className="form-control"
-									placeholder="Phone"
-									ref={register}
-									required
-								/>
-								<label htmlFor="phone">Phone</label>
+								>
+									<option value="SEL" disabled>
+										Contact
+									</option>
+									{contactsData.map(item => (
+										<option value={item.name} key={item._id}>
+											{item.name}
+										</option>
+									))}
+								</select>
 							</div>
 
 							<div className="form-label-group">
@@ -102,12 +96,12 @@ const AddOrEditLeads = ({ match, history }) => {
 									<option value="SEL" disabled>
 										Status
 									</option>
-									<option value="New">New</option>
-									<option value="Contacted">Contacted</option>
-									<option value="Qualified">Qualified</option>
-									<option value="Lost">Lost</option>
+									<option value="Created">Created</option>
+									<option value="Released">Released</option>
+									<option value="Open">Open</option>
+									<option value="In Process">In Process</option>
 									<option value="Cancelled">Cancelled</option>
-									<option value="Confirmed">Confirmed</option>
+									<option value="Completed">Completed</option>
 								</select>
 							</div>
 
@@ -125,4 +119,4 @@ const AddOrEditLeads = ({ match, history }) => {
 	)
 }
 
-export default AddOrEditLeads
+export default AddOrEditRequests

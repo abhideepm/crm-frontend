@@ -7,6 +7,7 @@ import Contacts from './Contacts'
 import axios from 'axios'
 import AddOrEditLeads from './AddOrEditLeads'
 import AddOrEditContacts from './AddOrEditContacts'
+import AddOrEditRequests from './AddOrEditRequests'
 
 const Dashboard = ({ match, history }) => {
 	const [leadsData, setLeadsData] = useState([])
@@ -116,6 +117,10 @@ const Dashboard = ({ match, history }) => {
 				<Route
 					path={`${match.url}/addcontacts/:id?`}
 					render={props => <AddOrEditContacts {...props} {...dataProps} />}
+				/>
+				<Route
+					path={`${match.url}/addrequests/:id?`}
+					render={props => <AddOrEditRequests {...props} {...dataProps} />}
 				/>
 				<Redirect from={`${match.url}/`} to={`${match.url}/home`} />
 			</Switch>
