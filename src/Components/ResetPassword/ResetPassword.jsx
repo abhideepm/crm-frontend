@@ -1,24 +1,30 @@
 import React from 'react'
-import './ForgotPassword.css'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 
-const ForgotPassword = ({ history }) => {
+const ResetPassword = ({ history, match }) => {
 	const { register, handleSubmit } = useForm()
+	const token = match.params.token
 	const onSubmit = async data => {
-		console.log(data)
-		try {
-			const res = await axios.post(
-				`https://limitless-badlands-01612.herokuapp.com/password/forgotpassword`,
-				data
-			)
-			if (res.data.message === 'Success')
-				alert('Please check your mail to reset password')
-			else if (res.data.message === 'User not found') alert('User not found')
-			else alert('Error')
-		} catch (err) {
-			alert(err)
+		const { password, confirmpassword } = data
+		if (password !== confirmpassword) alert(`Passwords don't match`)
+		else {
+			try {
+				const res = await axios.post(
+					`https://limitless-badlands-01612.herokuapp.com/password/resetpassword`,
+					{ password: password, token: token }
+				)
+				if (res.data.message === 'Token expired') {
+					alert('Token Expired')
+					history.push('/forgotpassword')
+				} else if (res.data.message === 'Success') {
+					alert('Password successfully updated')
+					history.push('/login')
+				} else alert('Error')
+			} catch (err) {
+				alert(err)
+			}
 		}
 	}
 	return (
@@ -31,13 +37,8 @@ const ForgotPassword = ({ history }) => {
 								<div className="col-lg-12">
 									<div className="p-5">
 										<div className="text-center">
-											<h1 className="h4 text-gray-900 mb-2">
-												Forgot Your Password?
-											</h1>
-											<p className="mb-4">
-												Enter your email address below and we'll send you a link
-												to reset your password!
-											</p>
+											<h1 className="h4 text-gray-900 mb-2">Reset Password</h1>
+											<p className="mb-4">Enter your new password below</p>
 										</div>
 										<form
 											onSubmit={handleSubmit(onSubmit)}
@@ -45,15 +46,28 @@ const ForgotPassword = ({ history }) => {
 										>
 											<div className="form-label-group">
 												<input
-													type="email"
+													type="password"
 													className="form-control form-control-user"
-													id="email"
-													name="email"
-													placeholder="Enter Email Address"
+													id="password"
+													name="password"
+													placeholder="Enter Password"
 													autoFocus
 													ref={register}
 												/>
-												<label htmlFor="email">Email</label>
+												<label htmlFor="password">Password</label>
+											</div>
+											<div className="form-label-group">
+												<input
+													type="password"
+													className="form-control form-control-user"
+													id="confirmpassword"
+													name="confirmpassword"
+													placeholder="Confirm Password"
+													ref={register}
+												/>
+												<label htmlFor="confirmpassword">
+													Confirm Password
+												</label>
 											</div>
 											<button className="btn btn-primary btn-user btn-block">
 												Reset Password
@@ -81,4 +95,4 @@ const ForgotPassword = ({ history }) => {
 	)
 }
 
-export default ForgotPassword
+export default ResetPassword
