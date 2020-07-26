@@ -5,6 +5,7 @@ import Leads from './Leads'
 import Requests from './Requests'
 import Contacts from './Contacts'
 import axios from 'axios'
+import AddOrEditLeads from './AddOrEditLeads'
 
 const Dashboard = ({ match, history }) => {
 	const [leadsData, setLeadsData] = useState([])
@@ -106,6 +107,10 @@ const Dashboard = ({ match, history }) => {
 				<Route
 					path={`${match.url}/contacts`}
 					render={props => <Contacts {...props} {...dataProps} />}
+				/>
+				<Route
+					path={`${match.url}/addleads/:id?`}
+					render={props => <AddOrEditLeads {...props} {...dataProps} />}
 				/>
 				<Redirect from={`${match.url}/`} to={`${match.url}/home`} />
 			</Switch>

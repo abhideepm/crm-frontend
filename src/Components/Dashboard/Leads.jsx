@@ -1,7 +1,7 @@
-import React from 'react'
 import axios from 'axios'
+import React from 'react'
 
-const Leads = ({ leadsData }) => {
+const Leads = ({ leadsData, history }) => {
 	const token = localStorage.getItem('token')
 	const deleteData = async id => {
 		try {
@@ -22,7 +22,10 @@ const Leads = ({ leadsData }) => {
 			<div className="card shadow my-5 animate__bounceIn">
 				<div className="card-body text-center">
 					<div className="text-right">
-						<button className="btn btn-success">
+						<button
+							className="btn btn-success"
+							onClick={() => history.push(`/dashboard/addleads`)}
+						>
 							<i className="fas fa-plus"></i>
 						</button>
 					</div>
@@ -45,7 +48,12 @@ const Leads = ({ leadsData }) => {
 									<td>{item.phone}</td>
 									<td>{item.status}</td>
 									<td className="d-flex justify-content-around">
-										<button className="btn btn-primary">
+										<button
+											className="btn btn-primary"
+											onClick={() =>
+												history.push(`/dashboard/addleads/${item._id}`)
+											}
+										>
 											<i className="fas fa-edit"></i>
 										</button>
 										<button
