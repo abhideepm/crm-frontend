@@ -7,9 +7,9 @@ import './Login.css'
 const Login = ({ history }) => {
 	const { register, handleSubmit } = useForm()
 
-	// useEffect(() => {
-	// 	const token = localStorage.getItem('token')
-	// }, [])
+	useEffect(() => {
+		// const token = localStorage.getItem('token')
+	}, [])
 	const onSubmit = async data => {
 		const res = await axios.post(
 			`https://limitless-badlands-01612.herokuapp.com/login`,
