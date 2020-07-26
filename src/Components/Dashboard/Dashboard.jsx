@@ -1,11 +1,36 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route, Switch, Link, Redirect } from 'react-router-dom'
 import Home from './Home'
 import Leads from './Leads'
 import Requests from './Requests'
 import Contacts from './Contacts'
+import axios from 'axios'
 
-const Dashboard = ({ match }) => {
+const Dashboard = ({ match, history }) => {
+	const validateLogin = async () => {
+		try {
+			const token = localStorage.getItem('token')
+			const { data } = await axios.get(
+				`https://limitless-badlands-01612.herokuapp.com/auth`,
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						authenticate: token,
+					},
+				}
+			)
+			if (data.message) {
+				history.push('/login')
+			}
+		} catch (err) {
+			console.log(err)
+		}
+	}
+
+	useEffect(() => {
+		validateLogin()
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
 	return (
 		<div>
 			<ul className="d-flex justify-content-around bg-dark list-unstyled h4 py-3">

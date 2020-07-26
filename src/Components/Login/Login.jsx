@@ -7,9 +7,31 @@ import './Login.css'
 const Login = ({ history }) => {
 	const { register, handleSubmit } = useForm()
 
+	const validateLogin = async () => {
+		try {
+			const token = localStorage.getItem('token')
+			const { data } = await axios.get(
+				`https://limitless-badlands-01612.herokuapp.com/auth`,
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						authenticate: token,
+					},
+				}
+			)
+			if (data.id) {
+				history.push('/dashboard')
+			}
+		} catch (err) {
+			console.log(err)
+		}
+	}
+
 	useEffect(() => {
-		// const token = localStorage.getItem('token')
+		validateLogin()
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
+
 	const onSubmit = async data => {
 		const res = await axios.post(
 			`https://limitless-badlands-01612.herokuapp.com/login`,
