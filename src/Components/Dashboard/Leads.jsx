@@ -12,6 +12,7 @@ const Leads = ({ leadsData, history }) => {
 				}
 			)
 			if (res.data === 'Forbidden') alert('Access Denied')
+			alert('Data successfully deleted, please refresh')
 		} catch (err) {
 			console.log(err)
 		}

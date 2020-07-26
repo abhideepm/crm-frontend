@@ -2,7 +2,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 
-const AddOrEditLeads = ({ match }) => {
+const AddOrEditLeads = ({ match, history }) => {
 	const token = localStorage.getItem('token')
 	const { register, handleSubmit } = useForm()
 	const id = match.params.id
@@ -11,14 +11,34 @@ const AddOrEditLeads = ({ match }) => {
 
 	const onSubmit = async data => {
 		try {
-			const res = await axios.post(
-				`https://limitless-badlands-01612.herokuapp.com/leads`,
-				data,
-				{
-					headers: { 'Content-Type': 'application/json', authenticate: token },
-				}
-			)
-			if (res.data === 'Success') alert('Data Successfully Inserted')
+			if (val === 'Add') {
+				const res = await axios.post(
+					`https://limitless-badlands-01612.herokuapp.com/leads`,
+					data,
+					{
+						headers: {
+							'Content-Type': 'application/json',
+							authenticate: token,
+						},
+					}
+				)
+				if (res.data.message === 'Success')
+					alert('Data Successfully Inserted, please refresh')
+			} else {
+				const res = await axios.put(
+					`https://limitless-badlands-01612.herokuapp.com/leads/${id}`,
+					data,
+					{
+						headers: {
+							'Content-Type': 'application/json',
+							authenticate: token,
+						},
+					}
+				)
+				if (res.data.message === 'Success')
+					alert('Data Successfully Edited, please refresh')
+			}
+			history.push('/dashboard/leads')
 		} catch (err) {
 			console.log(err)
 		}
