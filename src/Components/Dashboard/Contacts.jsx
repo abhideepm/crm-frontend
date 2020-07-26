@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 
-const Contacts = ({ contactsData }) => {
+const Contacts = ({ contactsData, history }) => {
 	const token = localStorage.getItem('token')
 	const deleteData = async id => {
 		try {
@@ -12,6 +12,7 @@ const Contacts = ({ contactsData }) => {
 				}
 			)
 			if (res.data === 'Forbidden') alert('Access Denied')
+			alert('Data successfully deleted, please refresh')
 		} catch (err) {
 			console.log(err)
 		}
@@ -23,7 +24,10 @@ const Contacts = ({ contactsData }) => {
 				<div className="card-body text-center">
 					<div className="text-right">
 						<button className="btn btn-success">
-							<i className="fas fa-plus"></i>
+							<i
+								className="fas fa-plus"
+								onClick={() => history.push(`/dashboard/addcontacts`)}
+							></i>
 						</button>
 					</div>
 					<h3 className="card-title">Contacts</h3>
@@ -44,7 +48,12 @@ const Contacts = ({ contactsData }) => {
 									<td>{item.phone}</td>
 									<td className="d-flex justify-content-around">
 										<button className="btn btn-primary">
-											<i className="fas fa-edit"></i>
+											<i
+												className="fas fa-edit"
+												onClick={() =>
+													history.push(`/dashboard/addcontacts/${item._id}`)
+												}
+											></i>
 										</button>
 										<button
 											className="btn btn-danger"
