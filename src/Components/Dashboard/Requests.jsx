@@ -56,7 +56,10 @@ const Requests = ({ requestsData, history }) => {
 										</button>
 										<button
 											className="btn btn-danger"
-											onClick={() => deleteData(item._id)}
+											onClick={() => {
+												if (window.confirm('Are you sure you want to delete?'))
+													deleteData(item._id)
+											}}
 										>
 											<i className="fas fa-trash"></i>
 										</button>
