@@ -2,7 +2,12 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 
-const AddOrEditContacts = ({ match, history }) => {
+const AddOrEditContacts = ({
+	match,
+	history,
+	contactsData,
+	setContactsData,
+}) => {
 	const token = localStorage.getItem('token')
 	const { register, handleSubmit } = useForm()
 	const id = match.params.id
@@ -22,8 +27,7 @@ const AddOrEditContacts = ({ match, history }) => {
 						},
 					}
 				)
-				if (res.data.message === 'Success')
-					alert('Data Successfully Inserted, please refresh')
+				setContactsData(contactsData.concat(res.data))
 			} else {
 				const res = await axios.put(
 					`https://limitless-badlands-01612.herokuapp.com/contacts/${id}`,
@@ -35,8 +39,7 @@ const AddOrEditContacts = ({ match, history }) => {
 						},
 					}
 				)
-				if (res.data.message === 'Success')
-					alert('Data Successfully Edited, please refresh')
+				setContactsData(contactsData.concat(res.data))
 			}
 			history.push('/dashboard/contacts')
 		} catch (err) {

@@ -84,14 +84,14 @@ const Dashboard = ({ match, history }) => {
 				</div>
 			) : (
 				<div className="">
-					<nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
+					<nav className="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
 						<div>
 							<Link to={`${match.url}/home`} className="nav-brand">
 								<h3>Customer Relations Management System</h3>
 							</Link>
 						</div>
 						<button
-							class="navbar-toggler"
+							className="navbar-toggler"
 							type="button"
 							data-toggle="collapse"
 							data-target="#navbarsExample05"
@@ -99,12 +99,12 @@ const Dashboard = ({ match, history }) => {
 							aria-expanded="false"
 							aria-label="Toggle navigation"
 						>
-							<span class="navbar-toggler-icon"></span>
+							<span className="navbar-toggler-icon"></span>
 						</button>
 
-						<div class="collapse navbar-collapse" id="navbarsExample05">
-							<ul class="navbar-nav ml-auto h5">
-								<li class="nav-item">
+						<div className="collapse navbar-collapse" id="navbarsExample05">
+							<ul className="navbar-nav ml-auto h5">
+								<li className="nav-item">
 									<Link to={`${match.url}/home`} className="nav-link">
 										Home
 									</Link>
