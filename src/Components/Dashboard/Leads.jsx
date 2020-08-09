@@ -46,47 +46,51 @@ const Leads = ({ leadsData, history, setLeadsData }) => {
 						{error ? <p className="text-danger">Error with Deletion</p> : null}
 					</div>
 					<h3 className="card-title">Leads</h3>
-					<table className="table">
-						<thead className="thead-dark">
-							<tr>
-								<th scope="col">Name</th>
-								<th scope="col">Email</th>
-								<th scope="col">Phone</th>
-								<th scope="col">Status</th>
-								<th scope="col">Actions</th>
-							</tr>
-						</thead>
-						<tbody>
-							{leadsData.map(item => (
-								<tr key={item._id}>
-									<td>{item.name}</td>
-									<td>{item.email}</td>
-									<td>{item.phone}</td>
-									<td>{item.status}</td>
-									<td className="d-flex justify-content-around">
-										<button
-											className="btn btn-primary"
-											onClick={() =>
-												history.push(`/dashboard/addleads/${item._id}`)
-											}
-										>
-											<i className="fas fa-edit"></i>
-										</button>
-										<button
-											className="btn btn-danger"
-											onClick={() => {
-												if (window.confirm('Are you sure you want to delete?'))
-													deleteData(item._id)
-											}}
-											ref={btnRef}
-										>
-											<i className="fas fa-trash"></i>
-										</button>
-									</td>
+					<div className="table-responsive-sm">
+						<table className="table">
+							<thead className="thead-dark">
+								<tr>
+									<th scope="col">Name</th>
+									<th scope="col">Email</th>
+									<th scope="col">Phone</th>
+									<th scope="col">Status</th>
+									<th scope="col">Actions</th>
 								</tr>
-							))}
-						</tbody>
-					</table>
+							</thead>
+							<tbody>
+								{leadsData.map(item => (
+									<tr key={item._id}>
+										<td>{item.name}</td>
+										<td>{item.email}</td>
+										<td>{item.phone}</td>
+										<td>{item.status}</td>
+										<td className="d-flex justify-content-around">
+											<button
+												className="btn btn-primary"
+												onClick={() =>
+													history.push(`/dashboard/addleads/${item._id}`)
+												}
+											>
+												<i className="fas fa-edit"></i>
+											</button>
+											<button
+												className="btn btn-danger"
+												onClick={() => {
+													if (
+														window.confirm('Are you sure you want to delete?')
+													)
+														deleteData(item._id)
+												}}
+												ref={btnRef}
+											>
+												<i className="fas fa-trash"></i>
+											</button>
+										</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -4,7 +4,7 @@ const Home = ({ leadsData, contactsData, requestsData }) => {
 	const title = ['Leads', 'Contacts', 'Requests']
 	const data = [leadsData, contactsData, requestsData]
 	return (
-		<div className="mx-auto w-50">
+		<div className="mx-auto w-75">
 			<div className="card shadow my-5">
 				<div className="card-body">
 					{title.map((item, idx) => (

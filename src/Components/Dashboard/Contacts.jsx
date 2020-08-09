@@ -46,45 +46,49 @@ const Contacts = ({ contactsData, history, setContactsData }) => {
 						{error ? <p className="text-danger">Error with Deletion</p> : null}
 					</div>
 					<h3 className="card-title">Contacts</h3>
-					<table className="table">
-						<thead className="thead-dark">
-							<tr>
-								<th scope="col">Name</th>
-								<th scope="col">Email</th>
-								<th scope="col">Phone</th>
-								<th scope="col">Actions</th>
-							</tr>
-						</thead>
-						<tbody>
-							{contactsData.map(item => (
-								<tr key={item._id}>
-									<td>{item.name}</td>
-									<td>{item.email}</td>
-									<td>{item.phone}</td>
-									<td className="d-flex justify-content-around">
-										<button
-											className="btn btn-primary"
-											onClick={() =>
-												history.push(`/dashboard/addcontacts/${item._id}`)
-											}
-										>
-											<i className="fas fa-edit"></i>
-										</button>
-										<button
-											className="btn btn-danger"
-											onClick={() => {
-												if (window.confirm('Are you sure you want to delete?'))
-													deleteData(item._id)
-											}}
-											ref={btnRef}
-										>
-											<i className="fas fa-trash"></i>
-										</button>
-									</td>
+					<div className="table-responsive-sm">
+						<table className="table">
+							<thead className="thead-dark">
+								<tr>
+									<th scope="col">Name</th>
+									<th scope="col">Email</th>
+									<th scope="col">Phone</th>
+									<th scope="col">Actions</th>
 								</tr>
-							))}
-						</tbody>
-					</table>
+							</thead>
+							<tbody>
+								{contactsData.map(item => (
+									<tr key={item._id}>
+										<td>{item.name}</td>
+										<td>{item.email}</td>
+										<td>{item.phone}</td>
+										<td className="d-flex justify-content-around">
+											<button
+												className="btn btn-primary"
+												onClick={() =>
+													history.push(`/dashboard/addcontacts/${item._id}`)
+												}
+											>
+												<i className="fas fa-edit"></i>
+											</button>
+											<button
+												className="btn btn-danger"
+												onClick={() => {
+													if (
+														window.confirm('Are you sure you want to delete?')
+													)
+														deleteData(item._id)
+												}}
+												ref={btnRef}
+											>
+												<i className="fas fa-trash"></i>
+											</button>
+										</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>
