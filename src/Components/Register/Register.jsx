@@ -10,9 +10,19 @@ const Register = ({ history }) => {
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState(false)
 	const [userExists, setUserExists] = useState(false)
+	const [validEmail, setValidEmail] = useState(true)
 	const btnRef = useRef()
 
+	function validateEmail(email) {
+		const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+		return re.test(String(email).toLowerCase())
+	}
+
 	const onSubmit = async data => {
+		if (!validateEmail(data.email)) {
+			setValidEmail(false)
+			return
+		}
 		if (btnRef.current) btnRef.current.setAttribute('disabled', 'disabled')
 		setLoading(true)
 		setError(false)
@@ -126,6 +136,11 @@ const Register = ({ history }) => {
 								{error ? (
 									<p className="text-center text-danger">
 										Error in Registration
+									</p>
+								) : null}
+								{!validEmail ? (
+									<p className="text-center text-danger">
+										Email address invalid
 									</p>
 								) : null}
 								{userExists ? (
