@@ -1,24 +1,38 @@
-import React from 'react'
-import './ForgotPassword.css'
+import axios from 'axios'
+import React, { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
+import './ForgotPassword.css'
+import Loader from 'react-loader-spinner'
 
-const ForgotPassword = ({ history }) => {
+const ForgotPassword = () => {
 	const { register, handleSubmit } = useForm()
+	const [loading, setLoading] = useState(false)
+	const [error, setError] = useState(false)
+	const [success, setSuccess] = useState(false)
+	const [userExists, setUserExists] = useState(true)
+	const btnRef = useRef()
+
 	const onSubmit = async data => {
-		console.log(data)
+		if (btnRef.current) {
+			btnRef.current.setAttribute('disabled', 'disabled')
+		}
+		setLoading(true)
+		setError(false)
+		setUserExists(true)
+		setSuccess(false)
 		try {
 			const res = await axios.post(
 				`https://limitless-badlands-01612.herokuapp.com/password/forgotpassword`,
 				data
 			)
-			if (res.data.message === 'Success')
-				alert('Please check your mail to reset password')
-			else if (res.data.message === 'User not found') alert('User not found')
-			else alert('Error')
+			if (res.data.message === 'Success') setSuccess(true)
+			else if (res.data.message === 'User not found') setUserExists(false)
+			else setError(true)
+			setLoading(false)
+			if (btnRef.current) btnRef.current.removeAttribute('disabled')
 		} catch (err) {
-			alert(err)
+			setError(true)
 		}
 	}
 	return (
@@ -60,6 +74,31 @@ const ForgotPassword = ({ history }) => {
 											</button>
 										</form>
 										<hr />
+										{loading ? (
+											<div className="text-center">
+												<Loader
+													type="TailSpin"
+													color="#00BFFF"
+													height={50}
+													width={50}
+												/>
+											</div>
+										) : null}
+										{error ? (
+											<p className="text-center text-danger">
+												Error, please try again
+											</p>
+										) : null}
+										{success ? (
+											<p className="text-center text-danger">
+												Please check your mail to reset password
+											</p>
+										) : null}
+										{!userExists ? (
+											<p className="text-center text-danger">
+												User doesn't exists
+											</p>
+										) : null}
 										<div className="text-center">
 											<Link to="/register" className="big">
 												Create an Account!

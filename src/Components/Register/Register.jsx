@@ -26,6 +26,8 @@ const Register = ({ history }) => {
 		if (btnRef.current) btnRef.current.setAttribute('disabled', 'disabled')
 		setLoading(true)
 		setError(false)
+		setUserExists(false)
+		setValidEmail(true)
 		const res = await axios.post(
 			`https://limitless-badlands-01612.herokuapp.com/register`,
 			data

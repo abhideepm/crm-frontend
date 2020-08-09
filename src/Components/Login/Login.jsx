@@ -27,7 +27,7 @@ const Login = ({ history }) => {
 				history.push('/dashboard')
 			}
 		} catch (err) {
-			console.log(err)
+			setError(true)
 		}
 	}
 
