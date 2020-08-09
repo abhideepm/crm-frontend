@@ -51,7 +51,7 @@ const Login = ({ history }) => {
 			history.push('/dashboard')
 		} else setError(true)
 		setLoading(false)
-		btnRef.current.removeAttribute('disabled')
+		if (btnRef.current) btnRef.current.removeAttribute('disabled')
 	}
 	return (
 		<div className="container">

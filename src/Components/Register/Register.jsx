@@ -1,22 +1,30 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import './Register.css'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import Loader from 'react-loader-spinner'
 
 const Register = ({ history }) => {
 	const { register, handleSubmit } = useForm()
+	const [loading, setLoading] = useState(false)
+	const [error, setError] = useState(false)
+	const [userExists, setUserExists] = useState(false)
+	const btnRef = useRef()
+
 	const onSubmit = async data => {
+		if (btnRef.current) btnRef.current.setAttribute('disabled', 'disabled')
+		setLoading(true)
+		setError(false)
 		const res = await axios.post(
 			`https://limitless-badlands-01612.herokuapp.com/register`,
 			data
 		)
-		if (res.data.message === 'Success')
-			alert('Registration successful, Redirecting')
-		else if (res.data.message === 'User already exists')
-			alert('User already exists')
-		else alert('Error')
-		history.push('/login')
+		if (res.data.message === 'Success') history.push('/login')
+		else if (res.data.message === 'User already exists') setUserExists(true)
+		else setError(true)
+		setLoading(false)
+		if (btnRef.current) btnRef.current.removeAttribute('disabled')
 	}
 
 	return (
@@ -99,11 +107,30 @@ const Register = ({ history }) => {
 
 								<button
 									className="btn btn-lg btn-primary btn-block text-uppercase"
+									ref={btnRef}
 									type="submit"
 								>
 									Register
 								</button>
 								<hr />
+								{loading ? (
+									<div className="text-center">
+										<Loader
+											type="TailSpin"
+											color="#00BFFF"
+											height={50}
+											width={50}
+										/>
+									</div>
+								) : null}
+								{error ? (
+									<p className="text-center text-danger">
+										Error in Registration
+									</p>
+								) : null}
+								{userExists ? (
+									<p className="text-center text-danger">User already exists</p>
+								) : null}
 								<Link to="/login" className="d-block text-center mt-2 big">
 									Sign In
 								</Link>
