@@ -22,8 +22,7 @@ const AddOrEditLeads = ({ match, history }) => {
 						},
 					}
 				)
-				if (res.data.message === 'Success')
-					alert('Data Successfully Inserted, please refresh')
+				setContactsData(contactsData.concat(res.data))
 			} else {
 				const res = await axios.put(
 					`https://limitless-badlands-01612.herokuapp.com/leads/${id}`,
@@ -35,8 +34,7 @@ const AddOrEditLeads = ({ match, history }) => {
 						},
 					}
 				)
-				if (res.data.message === 'Success')
-					alert('Data Successfully Edited, please refresh')
+				setContactsData(contactsData.concat(res.data))
 			}
 			history.push('/dashboard/leads')
 		} catch (err) {
