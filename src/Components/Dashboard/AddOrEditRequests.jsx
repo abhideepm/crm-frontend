@@ -71,7 +71,7 @@ const AddOrEditRequests = ({
 	}
 
 	return (
-		<div className="mx-auto w-lg-50 w-md-50 w-sm-75">
+		<div className="mx-auto w-75">
 			<div className="card shadow my-5">
 				<div className="card-body">
 					<h3 className="card-title text-center">{val} Request</h3>
