@@ -69,7 +69,10 @@ const ForgotPassword = () => {
 												/>
 												<label htmlFor="email">Email</label>
 											</div>
-											<button className="btn btn-primary btn-user btn-block">
+											<button
+												className="btn btn-primary btn-user btn-block"
+												ref={btnRef}
+											>
 												Reset Password
 											</button>
 										</form>
@@ -90,7 +93,7 @@ const ForgotPassword = () => {
 											</p>
 										) : null}
 										{success ? (
-											<p className="text-center text-danger">
+											<p className="text-center text-primary">
 												Please check your mail to reset password
 											</p>
 										) : null}
