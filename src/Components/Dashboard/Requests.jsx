@@ -22,11 +22,11 @@ const Requests = ({ requestsData, history }) => {
 			<div className="card shadow my-5 animate__bounceIn">
 				<div className="card-body text-center">
 					<div className="text-right">
-						<button className="btn btn-success">
-							<i
-								className="fas fa-plus"
-								onClick={() => history.push(`/dashboard/addrequests`)}
-							></i>
+						<button
+							className="btn btn-success"
+							onClick={() => history.push(`/dashboard/addrequests`)}
+						>
+							<i className="fas fa-plus"></i>
 						</button>
 					</div>
 					<h3 className="card-title">Service Requests</h3>

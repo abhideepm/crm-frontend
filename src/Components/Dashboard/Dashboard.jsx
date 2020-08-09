@@ -84,25 +84,58 @@ const Dashboard = ({ match, history }) => {
 				</div>
 			) : (
 				<div className="">
-					<ul className="d-flex justify-content-around bg-dark list-unstyled h4 py-3">
-						<li>
-							<Link to={`${match.url}/home`}>HOME</Link>
-						</li>
-						<li>
-							<Link to={`${match.url}/leads`}>LEADS</Link>
-						</li>
-						<li>
-							<Link to={`${match.url}/contacts`}>CONTACTS</Link>
-						</li>
-						<li>
-							<Link to={`${match.url}/requests`}>SERVICE REQUESTS</Link>
-						</li>
-						<li>
-							<Link to={`/login`} onClick={() => localStorage.clear()}>
-								LOG OUT
+					<nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
+						<div>
+							<Link to={`${match.url}/home`} className="nav-brand">
+								<h3>Customer Relations Management System</h3>
 							</Link>
-						</li>
-					</ul>
+						</div>
+						<button
+							class="navbar-toggler"
+							type="button"
+							data-toggle="collapse"
+							data-target="#navbarsExample05"
+							aria-controls="navbarsExample05"
+							aria-expanded="false"
+							aria-label="Toggle navigation"
+						>
+							<span class="navbar-toggler-icon"></span>
+						</button>
+
+						<div class="collapse navbar-collapse" id="navbarsExample05">
+							<ul class="navbar-nav ml-auto h5">
+								<li class="nav-item">
+									<Link to={`${match.url}/home`} className="nav-link">
+										Home
+									</Link>
+								</li>
+								<li>
+									<Link to={`${match.url}/leads`} className="nav-link">
+										Leads
+									</Link>
+								</li>
+								<li>
+									<Link to={`${match.url}/contacts`} className="nav-link">
+										Contacts
+									</Link>
+								</li>
+								<li>
+									<Link to={`${match.url}/requests`} className="nav-link">
+										Service Requests
+									</Link>
+								</li>
+								<li>
+									<Link
+										to={`/login`}
+										onClick={() => localStorage.clear()}
+										className="nav-link"
+									>
+										Log Out
+									</Link>
+								</li>
+							</ul>
+						</div>
+					</nav>
 					<Switch>
 						<Route
 							path={`${match.url}/home`}
