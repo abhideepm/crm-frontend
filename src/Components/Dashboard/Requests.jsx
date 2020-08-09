@@ -46,13 +46,13 @@ const Requests = ({ requestsData, history }) => {
 									<td>{item.contact}</td>
 									<td>{item.status}</td>
 									<td className="d-flex justify-content-around">
-										<button className="btn btn-primary">
-											<i
-												className="fas fa-edit"
-												onClick={() =>
-													history.push(`/dashboard/addrequests/${item._id}`)
-												}
-											></i>
+										<button
+											className="btn btn-primary"
+											onClick={() =>
+												history.push(`/dashboard/addrequests/${item._id}`)
+											}
+										>
+											<i className="fas fa-edit"></i>
 										</button>
 										<button
 											className="btn btn-danger"

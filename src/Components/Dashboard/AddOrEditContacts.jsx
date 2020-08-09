@@ -9,10 +9,14 @@ const AddOrEditContacts = ({
 	setContactsData,
 }) => {
 	const token = localStorage.getItem('token')
-	const { register, handleSubmit } = useForm()
 	const id = match.params.id
 	let val = ''
 	id ? (val = 'Edit') : (val = 'Add')
+
+	let editValue = {}
+	if (val === 'Edit')
+		editValue = contactsData.filter(item => item._id === id)[0]
+	const { register, handleSubmit } = useForm({ defaultValues: editValue })
 
 	const onSubmit = async data => {
 		try {
@@ -29,6 +33,7 @@ const AddOrEditContacts = ({
 				)
 				setContactsData(contactsData.concat(res.data))
 			} else {
+				delete data._id
 				const res = await axios.put(
 					`https://limitless-badlands-01612.herokuapp.com/contacts/${id}`,
 					data,
@@ -39,7 +44,14 @@ const AddOrEditContacts = ({
 						},
 					}
 				)
-				setContactsData(contactsData.concat(res.data))
+				setContactsData(
+					contactsData.map(item => {
+						if (item._id === id) {
+							item = res.data
+						}
+						return item
+					})
+				)
 			}
 			history.push('/dashboard/contacts')
 		} catch (err) {

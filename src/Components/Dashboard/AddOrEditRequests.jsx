@@ -10,10 +10,14 @@ const AddOrEditRequests = ({
 	setRequestsData,
 }) => {
 	const token = localStorage.getItem('token')
-	const { register, handleSubmit } = useForm()
 	const id = match.params.id
 	let val = ''
 	id ? (val = 'Edit') : (val = 'Add')
+
+	let editValue = {}
+	if (val === 'Edit')
+		editValue = requestsData.filter(item => item._id === id)[0]
+	const { register, handleSubmit } = useForm({ defaultValues: editValue })
 
 	const onSubmit = async data => {
 		try {
@@ -30,6 +34,7 @@ const AddOrEditRequests = ({
 				)
 				setRequestsData(requestsData.concat(res.data))
 			} else {
+				delete data._id
 				const res = await axios.put(
 					`https://limitless-badlands-01612.herokuapp.com/requests/${id}`,
 					data,
@@ -40,7 +45,14 @@ const AddOrEditRequests = ({
 						},
 					}
 				)
-				setRequestsData(requestsData.concat(res.data))
+				setRequestsData(
+					requestsData.map(item => {
+						if (item._id === id) {
+							item = res.data
+						}
+						return item
+					})
+				)
 			}
 			history.push('/dashboard/requests')
 		} catch (err) {

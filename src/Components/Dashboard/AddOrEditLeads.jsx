@@ -4,10 +4,13 @@ import axios from 'axios'
 
 const AddOrEditLeads = ({ match, history, leadsData, setLeadsData }) => {
 	const token = localStorage.getItem('token')
-	const { register, handleSubmit } = useForm()
 	const id = match.params.id
 	let val = ''
 	id ? (val = 'Edit') : (val = 'Add')
+
+	let editValue = {}
+	if (val === 'Edit') editValue = leadsData.filter(item => item._id === id)[0]
+	const { register, handleSubmit } = useForm({ defaultValues: editValue })
 
 	const onSubmit = async data => {
 		try {
@@ -24,6 +27,7 @@ const AddOrEditLeads = ({ match, history, leadsData, setLeadsData }) => {
 				)
 				setLeadsData(leadsData.concat(res.data))
 			} else {
+				delete data._id
 				const res = await axios.put(
 					`https://limitless-badlands-01612.herokuapp.com/leads/${id}`,
 					data,
@@ -34,7 +38,16 @@ const AddOrEditLeads = ({ match, history, leadsData, setLeadsData }) => {
 						},
 					}
 				)
-				setLeadsData(leadsData.concat(res.data))
+				if (res.data.message === 'Error modifying leads')
+					throw new Error('Edit Error')
+				setLeadsData(
+					leadsData.map(item => {
+						if (item._id === id) {
+							item = res.data
+						}
+						return item
+					})
+				)
 			}
 			history.push('/dashboard/leads')
 		} catch (err) {

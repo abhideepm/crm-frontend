@@ -47,13 +47,13 @@ const Contacts = ({ contactsData, history }) => {
 									<td>{item.email}</td>
 									<td>{item.phone}</td>
 									<td className="d-flex justify-content-around">
-										<button className="btn btn-primary">
-											<i
-												className="fas fa-edit"
-												onClick={() =>
-													history.push(`/dashboard/addcontacts/${item._id}`)
-												}
-											></i>
+										<button
+											className="btn btn-primary"
+											onClick={() =>
+												history.push(`/dashboard/addcontacts/${item._id}`)
+											}
+										>
+											<i className="fas fa-edit"></i>
 										</button>
 										<button
 											className="btn btn-danger"
