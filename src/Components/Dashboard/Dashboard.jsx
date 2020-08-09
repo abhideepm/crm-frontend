@@ -8,12 +8,14 @@ import axios from 'axios'
 import AddOrEditLeads from './AddOrEditLeads'
 import AddOrEditContacts from './AddOrEditContacts'
 import AddOrEditRequests from './AddOrEditRequests'
+import Loader from 'react-loader-spinner'
 
 const Dashboard = ({ match, history }) => {
 	const [leadsData, setLeadsData] = useState([])
 	const [contactsData, setContactsData] = useState([])
 	const [requestsData, setRequestsData] = useState([])
 	const token = localStorage.getItem('token')
+	const [loading, setLoading] = useState(true)
 
 	const validateLogin = async () => {
 		try {
@@ -53,6 +55,7 @@ const Dashboard = ({ match, history }) => {
 				setContactsData(fetchedData[0].data)
 				setLeadsData(fetchedData[1].data)
 				setRequestsData(fetchedData[2].data)
+				if (fetchedData) setLoading(false)
 			})
 		)
 	}
@@ -70,60 +73,69 @@ const Dashboard = ({ match, history }) => {
 		setLeadsData: setLeadsData,
 		setContactsData: setContactsData,
 		setRequestsData: setRequestsData,
+		loading: loading,
 	}
 
 	return (
 		<div>
-			<ul className="d-flex justify-content-around bg-dark list-unstyled h4 py-3">
-				<li>
-					<Link to={`${match.url}/home`}>HOME</Link>
-				</li>
-				<li>
-					<Link to={`${match.url}/leads`}>LEADS</Link>
-				</li>
-				<li>
-					<Link to={`${match.url}/contacts`}>CONTACTS</Link>
-				</li>
-				<li>
-					<Link to={`${match.url}/requests`}>SERVICE REQUESTS</Link>
-				</li>
-				<li>
-					<Link to={`/login`} onClick={() => localStorage.clear()}>
-						LOG OUT
-					</Link>
-				</li>
-			</ul>
-			<Switch>
-				<Route
-					path={`${match.url}/home`}
-					render={props => <Home {...props} {...dataProps} />}
-				/>
-				<Route
-					path={`${match.url}/leads`}
-					render={props => <Leads {...props} {...dataProps} />}
-				/>
-				<Route
-					path={`${match.url}/requests`}
-					component={props => <Requests {...props} {...dataProps} />}
-				/>
-				<Route
-					path={`${match.url}/contacts`}
-					render={props => <Contacts {...props} {...dataProps} />}
-				/>
-				<Route
-					path={`${match.url}/addleads/:id?`}
-					render={props => <AddOrEditLeads {...props} {...dataProps} />}
-				/>
-				<Route
-					path={`${match.url}/addcontacts/:id?`}
-					render={props => <AddOrEditContacts {...props} {...dataProps} />}
-				/>
-				<Route
-					path={`${match.url}/addrequests/:id?`}
-					render={props => <AddOrEditRequests {...props} {...dataProps} />}
-				/>
-				<Redirect from={`${match.url}/`} to={`${match.url}/home`} />
-			</Switch>
+			{loading ? (
+				<div className="text-center my-5">
+					<Loader type="Puff" color="#FFF" height={500} width={150} />
+				</div>
+			) : (
+				<div className="">
+					<ul className="d-flex justify-content-around bg-dark list-unstyled h4 py-3">
+						<li>
+							<Link to={`${match.url}/home`}>HOME</Link>
+						</li>
+						<li>
+							<Link to={`${match.url}/leads`}>LEADS</Link>
+						</li>
+						<li>
+							<Link to={`${match.url}/contacts`}>CONTACTS</Link>
+						</li>
+						<li>
+							<Link to={`${match.url}/requests`}>SERVICE REQUESTS</Link>
+						</li>
+						<li>
+							<Link to={`/login`} onClick={() => localStorage.clear()}>
+								LOG OUT
+							</Link>
+						</li>
+					</ul>
+					<Switch>
+						<Route
+							path={`${match.url}/home`}
+							render={props => <Home {...props} {...dataProps} />}
+						/>
+						<Route
+							path={`${match.url}/leads`}
+							render={props => <Leads {...props} {...dataProps} />}
+						/>
+						<Route
+							path={`${match.url}/requests`}
+							component={props => <Requests {...props} {...dataProps} />}
+						/>
+						<Route
+							path={`${match.url}/contacts`}
+							render={props => <Contacts {...props} {...dataProps} />}
+						/>
+						<Route
+							path={`${match.url}/addleads/:id?`}
+							render={props => <AddOrEditLeads {...props} {...dataProps} />}
+						/>
+						<Route
+							path={`${match.url}/addcontacts/:id?`}
+							render={props => <AddOrEditContacts {...props} {...dataProps} />}
+						/>
+						<Route
+							path={`${match.url}/addrequests/:id?`}
+							render={props => <AddOrEditRequests {...props} {...dataProps} />}
+						/>
+						<Redirect from={`${match.url}/`} to={`${match.url}/home`} />
+					</Switch>
+				</div>
+			)}
 		</div>
 	)
 }
