@@ -1,11 +1,15 @@
 import axios from 'axios'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import './Login.css'
+import Loader from 'react-loader-spinner'
 
 const Login = ({ history }) => {
 	const { register, handleSubmit } = useForm()
+	const [loading, setLoading] = useState(false)
+	const [error, setError] = useState(false)
+	const btnRef = useRef()
 
 	const validateLogin = async () => {
 		try {
@@ -33,14 +37,21 @@ const Login = ({ history }) => {
 	}, [])
 
 	const onSubmit = async data => {
+		if (btnRef.current) {
+			btnRef.current.setAttribute('disabled', 'disabled')
+		}
+		setLoading(true)
+		setError(false)
 		const res = await axios.post(
 			`https://limitless-badlands-01612.herokuapp.com/login`,
 			data
 		)
-		if (res.data.message === 'Success') alert('Sign In successful, Redirecting')
-		else alert('Error')
-		localStorage.setItem('token', res.data.token)
-		history.push('/dashboard')
+		if (res.data.message === 'Success') {
+			localStorage.setItem('token', res.data.token)
+			history.push('/dashboard')
+		} else setError(true)
+		setLoading(false)
+		btnRef.current.removeAttribute('disabled')
 	}
 	return (
 		<div className="container">
@@ -79,11 +90,25 @@ const Login = ({ history }) => {
 
 								<button
 									className="btn btn-lg btn-primary btn-block text-uppercase"
+									ref={btnRef}
 									type="submit"
 								>
 									Sign in
 								</button>
 								<hr />
+								{loading ? (
+									<div className="text-center">
+										<Loader
+											type="TailSpin"
+											color="#00BFFF"
+											height={50}
+											width={50}
+										/>
+									</div>
+								) : null}
+								{error ? (
+									<p className="text-center text-danger">Error Signing In</p>
+								) : null}
 								<Link
 									to="/forgotpassword"
 									className="d-block text-center mt-2 big"
