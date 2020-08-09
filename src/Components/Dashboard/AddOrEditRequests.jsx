@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
+import Loader from 'react-loader-spinner'
 
 const AddOrEditRequests = ({
 	contactsData,
@@ -9,6 +10,10 @@ const AddOrEditRequests = ({
 	requestsData,
 	setRequestsData,
 }) => {
+	const [loading, setLoading] = useState(false)
+	const [error, setError] = useState(false)
+	const btnRef = useRef()
+
 	const token = localStorage.getItem('token')
 	const id = match.params.id
 	let val = ''
@@ -20,6 +25,11 @@ const AddOrEditRequests = ({
 	const { register, handleSubmit } = useForm({ defaultValues: editValue })
 
 	const onSubmit = async data => {
+		if (btnRef.current) {
+			btnRef.current.setAttribute('disabled', 'disabled')
+		}
+		setLoading(true)
+		setError(false)
 		try {
 			if (val === 'Add') {
 				const res = await axios.post(
@@ -56,7 +66,7 @@ const AddOrEditRequests = ({
 			}
 			history.push('/dashboard/requests')
 		} catch (err) {
-			console.log(err)
+			setError(true)
 		}
 	}
 
@@ -124,10 +134,24 @@ const AddOrEditRequests = ({
 							<button
 								className="btn btn-lg btn-primary btn-block text-uppercase"
 								type="submit"
+								ref={btnRef}
 							>
 								{val}
 							</button>
 						</form>
+						{loading ? (
+							<div className="text-center mt-5">
+								<Loader
+									type="TailSpin"
+									color="#00BFFF"
+									height={50}
+									width={50}
+								/>
+							</div>
+						) : null}
+						{error ? (
+							<p className="text-center text-danger">Error {val}ing Data</p>
+						) : null}
 					</div>
 				</div>
 			</div>
