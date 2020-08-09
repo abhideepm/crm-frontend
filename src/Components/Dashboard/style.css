@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@500&display=swap');
+
+.bg-nav {
+	background: #302b63;
+}
+
+.logo {
+	font-family: 'Lobster', cursive;
+	color: white;
+}
+
+.items {
+	font-family: 'Teko', sans-serif;
+}

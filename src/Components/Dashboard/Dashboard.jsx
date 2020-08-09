@@ -9,6 +9,7 @@ import AddOrEditLeads from './AddOrEditLeads'
 import AddOrEditContacts from './AddOrEditContacts'
 import AddOrEditRequests from './AddOrEditRequests'
 import Loader from 'react-loader-spinner'
+import './style.css'
 
 const Dashboard = ({ match, history }) => {
 	const [leadsData, setLeadsData] = useState([])
@@ -84,9 +85,9 @@ const Dashboard = ({ match, history }) => {
 				</div>
 			) : (
 				<div className="">
-					<nav className="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
+					<nav className="navbar navbar-expand-lg navbar-dark bg-nav justify-content-between">
 						<div>
-							<Link to={`${match.url}/home`} className="nav-brand">
+							<Link to={`${match.url}/home`} className="nav-brand logo">
 								<h3>Customer Relations Management System</h3>
 							</Link>
 						</div>
@@ -103,7 +104,7 @@ const Dashboard = ({ match, history }) => {
 						</button>
 
 						<div className="collapse navbar-collapse" id="navbarsExample05">
-							<ul className="navbar-nav ml-auto h5">
+							<ul className="navbar-nav ml-auto h4 items">
 								<li className="nav-item">
 									<Link to={`${match.url}/home`} className="nav-link">
 										Home
