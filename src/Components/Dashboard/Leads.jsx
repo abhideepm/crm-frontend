@@ -1,20 +1,31 @@
 import axios from 'axios'
-import React from 'react'
+import React, { useState, useRef } from 'react'
+import Loader from 'react-loader-spinner'
 
-const Leads = ({ leadsData, history }) => {
+const Leads = ({ leadsData, history, setLeadsData }) => {
+	const [loading, setLoading] = useState(false)
+	const [error, setError] = useState(false)
+	const btnRef = useRef()
+
 	const token = localStorage.getItem('token')
 	const deleteData = async id => {
+		if (btnRef.current) {
+			btnRef.current.setAttribute('disabled', 'disabled')
+		}
+		setLoading(true)
+		setError(false)
 		try {
-			const res = await axios.delete(
+			await axios.delete(
 				`https://limitless-badlands-01612.herokuapp.com/leads/${id}`,
 				{
 					headers: { 'Content-Type': 'application/json', authenticate: token },
 				}
 			)
-			if (res.data === 'Forbidden') alert('Access Denied')
-			alert('Data successfully deleted, please refresh')
+			setLoading(false)
+			if (btnRef.current) btnRef.current.removeAttribute('disabled')
+			setLeadsData(leadsData.filter(item => item._id !== id))
 		} catch (err) {
-			console.log(err)
+			setError(true)
 		}
 	}
 
@@ -22,13 +33,17 @@ const Leads = ({ leadsData, history }) => {
 		<div className="mx-auto w-75 mt-5">
 			<div className="card shadow my-5 animate__bounceIn">
 				<div className="card-body text-center">
-					<div className="text-right">
+					<div className="text-right d-flex justify-content-between">
 						<button
 							className="btn btn-success"
 							onClick={() => history.push(`/dashboard/addleads`)}
 						>
 							<i className="fas fa-plus"></i>
 						</button>
+						{loading ? (
+							<Loader type="Puff" color="#00BFFF" height={25} width={25} />
+						) : null}
+						{error ? <p className="text-danger">Error with Deletion</p> : null}
 					</div>
 					<h3 className="card-title">Leads</h3>
 					<table className="table">
@@ -63,6 +78,7 @@ const Leads = ({ leadsData, history }) => {
 												if (window.confirm('Are you sure you want to delete?'))
 													deleteData(item._id)
 											}}
+											ref={btnRef}
 										>
 											<i className="fas fa-trash"></i>
 										</button>
