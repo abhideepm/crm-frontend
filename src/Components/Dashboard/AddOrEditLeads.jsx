@@ -2,7 +2,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 
-const AddOrEditLeads = ({ match, history }) => {
+const AddOrEditLeads = ({ match, history, leadsData, setLeadsData }) => {
 	const token = localStorage.getItem('token')
 	const { register, handleSubmit } = useForm()
 	const id = match.params.id
@@ -22,7 +22,7 @@ const AddOrEditLeads = ({ match, history }) => {
 						},
 					}
 				)
-				setContactsData(contactsData.concat(res.data))
+				setLeadsData(leadsData.concat(res.data))
 			} else {
 				const res = await axios.put(
 					`https://limitless-badlands-01612.herokuapp.com/leads/${id}`,
@@ -34,7 +34,7 @@ const AddOrEditLeads = ({ match, history }) => {
 						},
 					}
 				)
-				setContactsData(contactsData.concat(res.data))
+				setLeadsData(leadsData.concat(res.data))
 			}
 			history.push('/dashboard/leads')
 		} catch (err) {
